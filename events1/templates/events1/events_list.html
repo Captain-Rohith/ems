@@ -1,0 +1,28 @@
+{% extends 'events1/base.html' %}
+
+{% block content %}
+<nav class="navbar bg-white py-3">
+    <div class="container-fluid justify-content-center">
+      <form method="get" action="{% url 'events1:event_list' %}" class="d-flex" role="search">
+        <input type="text" name="search" value="{{ search_query }}" class="form-control me-2" placeholder="Search for events" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+</nav>
+
+  
+
+<div class="events-grid">
+    {% for event in events %}
+        <div class="event-card">
+            <img src="{{ event.image.url }}" alt="{{ event.title }}">
+            <h3>{{ event.title }}</h3>
+            <p>{{ event.short_description }}</p>
+            <p>Date: {{ event.date }}</p>
+            <p>Time: {{ event.time }}</p>
+            <p>Location: {{ event.location }}</p>
+            <button href="{% url 'events1:event_detail' pk=event.pk %}" type="button" class="btn btn-outline-primary">View Details</button>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

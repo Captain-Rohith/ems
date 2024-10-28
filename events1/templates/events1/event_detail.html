@@ -1,0 +1,92 @@
+{% extends 'events1/base.html' %}
+
+{% block content %}
+<div class="event-detail-container">
+    <div class="event-header">
+        <h1>{{ event.title }}</h1>
+        {% if user == event.created_by %}
+        <div class="event-actions">
+            <a href="{% url 'events1:event_edit' pk=event.pk %}" class="edit-button">Edit Event</a>
+            <a href="{% url 'events1:event_delete' pk=event.pk %}" class="delete-button" onclick="return confirm('Are you sure you want to delete this event?')">Delete Event</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="event-content">
+        <div class="event-image">
+            {% if event.image %}
+                <img src="{{ event.image.url }}" alt="{{ event.title }}">
+            {% else %}
+                <div class="no-image">No Image Available</div>
+            {% endif %}
+        </div>
+
+        <div class="event-info">
+            <div class="info-section">
+                <h3>Date & Time</h3>
+                <p><i class="fas fa-calendar"></i> {{ event.date }}</p>
+                <p><i class="fas fa-clock"></i> {{ event.time }}</p>
+            </div>
+
+            <div class="info-section">
+                <h3>Location</h3>
+                <p><i class="fas fa-map-marker-alt"></i> {{ event.location }}</p>
+            </div>
+
+            <div class="info-section">
+                <h3>Description</h3>
+                <p>{{ event.short_description }}</p>
+            </div>
+
+            <div class="info-section">
+                <h3>Organized by</h3>
+                <p><i class="fas fa-user"></i> {{ event.created_by.username }}</p>
+            </div>
+
+            {% if event.date >= today %}
+            <div class="registration-section">
+                <button id="registerButton" class="register-button">Register for Event</button>
+                <div id="registrationForm" class="registration-form" style="display: none;">
+                    <form id="attendeeForm">
+                        {% csrf_token %}
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
+                        <textarea name="message" placeholder="Any special requirements?"></textarea>
+                        <button type="submit">Submit Registration</button>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <div class="event-passed">
+                <p>This event has already taken place.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if similar_events %}
+    <div class="similar-events">
+        <h2>Similar Events</h2>
+        <div class="similar-events-grid">
+            {% for similar_event in similar_events %}
+            <div class="event-card">
+                <img src="{{ similar_event.image.url }}" alt="{{ similar_event.title }}">
+                <h3>{{ similar_event.title }}</h3>
+                <p>{{ similar_event.date }}</p>
+                <a href="{% url 'events1:event_detail' pk=similar_event.pk %}" class="view-button">View Event</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Add this to your event_detail.html -->
+<div id="successModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Registration Successful!</h2>
+        <p>Thank you for registering for this event. We'll send you more details via email.</p>
+    </div>
+</div>
+{% endblock %}
