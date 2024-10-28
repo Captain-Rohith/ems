@@ -13,9 +13,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 return false;
             }
             
-            if (password1.length < 8) {
+            if (password1.length < 4) {
                 e.preventDefault();
-                alert("Password must be at least 8 characters long!");
+                alert("Password must be at least 4 characters long!");
                 return false;
             }
         });
@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const preview = document.createElement('img');
                     preview.src = e.target.result;
                     preview.style.maxWidth = '200px';
+
                     preview.style.marginTop = '10px';
                     
                     const container = imageInput.parentElement;

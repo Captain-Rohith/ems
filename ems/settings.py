@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'events1.apps.Events1Config',
+    'rest_framework',
     
 ]
 

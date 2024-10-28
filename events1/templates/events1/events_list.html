@@ -1,6 +1,7 @@
 {% extends 'events1/base.html' %}
-
+{% load static %}
 {% block content %}
+
 <nav class="navbar bg-white py-3">
     <div class="container-fluid justify-content-center">
       <form method="get" action="{% url 'events1:event_list' %}" class="d-flex" role="search">
@@ -9,8 +10,6 @@
       </form>
     </div>
 </nav>
-
-  
 
 <div class="events-grid">
     {% for event in events %}
@@ -21,7 +20,7 @@
             <p>Date: {{ event.date }}</p>
             <p>Time: {{ event.time }}</p>
             <p>Location: {{ event.location }}</p>
-            <button href="{% url 'events1:event_detail' pk=event.pk %}" type="button" class="btn btn-outline-primary">View Details</button>
+            <a href="{% url 'events1:event_detail' pk=event.pk %}" class="btn btn-outline-primary">View Details</a>
         </div>
     {% endfor %}
 </div>
